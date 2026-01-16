@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import threading
+import webbrowser
 from flask import (
     Flask, render_template, request, redirect, url_for,
     jsonify, abort, session, flash
@@ -309,6 +311,12 @@ def change_password():
     set_setting("admin_pw_hash", generate_password_hash(new_pw))
     flash("Passwort geändert ✅")
     return redirect(url_for("admin"))
+
+def open_browser(url: str) -> None:
+    try:
+        webbrowser.open(url)
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":
