@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin – Facts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body class="bg-dark text-light">
+  <main class="container py-5">
+
+    <div class="d-flex align-items-center justify-content-between mb-3 gap-2 flex-wrap">
+      <h1 class="h4 m-0">Admin</h1>
+
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-outline-secondary" href="/">Zur App</a>
+        <form method="post" action="/logout" class="m-0">
+          <button class="btn btn-outline-secondary" type="submit">Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-info">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Add -->
+    <div class="card bg-black border-secondary p-3 mb-4">
+      <form method="post" action="/admin/add" class="d-flex gap-2 flex-wrap">
+        <select name="kind" class="form-select form-select-lg" style="max-width: 220px;">
+          <option value="fact">Fact</option>
+          <option value="loading">Loading-Text</option>
+        </select>
+
+        <input name="text" class="form-control form-control-lg" maxlength="280"
+               placeholder="Text hinzufügen (max 280 Zeichen)" required />
+        <button class="btn btn-success btn-lg" type="submit">Hinzufügen</button>
+      </form>
+      <div class="text-secondary mt-2 small">
+        Facts = Ausgabe nach dem Laden • Loading-Texte = Sprüche während des Balkens
+      </div>
+    </div>
+
+    <!-- Change password -->
+    <div class="card bg-black border-secondary p-3 mb-4">
+      <h2 class="h5 mb-3">Admin-Passwort ändern</h2>
+
+      <form method="post" action="/admin/change_password" class="row g-2">
+        <div class="col-12 col-md-4">
+          <input class="form-control" type="password" name="current_pw" placeholder="Aktuelles Passwort" required>
+        </div>
+        <div class="col-12 col-md-4">
+          <input class="form-control" type="password" name="new_pw" placeholder="Neues Passwort (min 6)" required>
+        </div>
+        <div class="col-12 col-md-4">
+          <input class="form-control" type="password" name="new_pw2" placeholder="Neues Passwort wiederholen" required>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Passwort ändern</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Facts table -->
+    <div class="card bg-black border-secondary p-3 mb-4">
+      <h2 class="h5 mb-3">Facts</h2>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th style="width: 80px;">ID</th>
+              <th>Text</th>
+              <th style="width: 220px;">Aktionen</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for f in facts %}
+            <tr>
+              <td>{{ f.id }}</td>
+              <td class="text-break">{{ f.text }}</td>
+              <td class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-info" href="/admin/edit/{{ f.id }}">Edit</a>
+                <form method="post" action="/admin/delete/{{ f.id }}" class="m-0"
+                      onsubmit="return confirm('Wirklich löschen?');">
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Loading table -->
+    <div class="card bg-black border-secondary p-3">
+      <h2 class="h5 mb-3">Loading-Texte</h2>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th style="width: 80px;">ID</th>
+              <th>Text</th>
+              <th style="width: 220px;">Aktionen</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for f in loading %}
+            <tr>
+              <td>{{ f.id }}</td>
+              <td class="text-break">{{ f.text }}</td>
+              <td class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-info" href="/admin/edit/{{ f.id }}">Edit</a>
+                <form method="post" action="/admin/delete/{{ f.id }}" class="m-0"
+                      onsubmit="return confirm('Wirklich löschen?');">
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

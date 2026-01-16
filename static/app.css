@@ -1,0 +1,57 @@
+.loading-panel{
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255,255,255,.03);
+}
+
+.progress{
+  background: rgba(255,255,255,.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar{
+  border-radius: 999px;
+}
+
+.spinner{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.25);
+  border-top-color: rgba(255,255,255,.85);
+  animation: spin .75s linear infinite;
+}
+
+@keyframes spin{
+  to { transform: rotate(360deg); }
+}
+
+.fact-pop{
+  animation: pop .22s ease-out;
+}
+
+@keyframes pop{
+  from { transform: translateY(4px); opacity: .5; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.fact-text {
+  color: #ffffff;
+}
+
+.fact-loading {
+  color: rgba(255,255,255,0.55);
+}
+
+#factText.fact-text {
+  color: #ffffff !important;
+  text-shadow: 0 1px 6px rgba(255,255,255,0.12);
+}
+
+
+#factText.fact-loading {
+  color: rgba(255,255,255,0.55);
+  opacity: 1;
+}
+
