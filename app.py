@@ -312,4 +312,14 @@ def change_password():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    host = "0.0.0.0"
+    port = 5000
+    url = f"http://127.0.0.1:{port}/"
+
+    threading.Timer(0.6, open_browser, args=(url,)).start()
+
+    try:
+        from waitress import serve
+        serve(app, host=host, port=port)
+    except Exception:
+        app.run(host=host, port=port, debug=True)
